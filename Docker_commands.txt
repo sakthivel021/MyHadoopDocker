@@ -1,0 +1,192 @@
+Blog: https://github.com/Evalle/DCA
+=======================================
+
+Learning Docker
+===============
+Terminology
+==============
+
+Images - The file system and configuration of our application which are used to create containers. 
+
+Containers - Running instances of Docker images 
+
+Docker daemon - The background service running on the host that manages building, running and distributing Docker containers
+
+Docker client - The command line tool that allows the user to interact with the Docker daemon.
+
+Docker Store - Store is, among other things, a registry of Docker images. You can think of the registry as a directory of all available Docker image
+
+Layers - A Docker image is built up from a series of layers. Each layer represents an instruction in the image’s Dockerfile. Each layer except the last one is read-only.
+
+Dockerfile - A text file that contains all the commands, in order, needed to build a given image.
+
+Volumes - A special Docker container layer that allows data to persist and be shared separately from the container itself. Think of volumes as a way to abstract and manage your persistent data separately from the application itself.
+
+
+
+
+
+
+[root@ip-172-31-39-174 ec2-user]# docker info
+Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 0
+Server Version: 1.13.1
+Storage Driver: overlay2
+ Backing Filesystem: xfs
+ Supports d_type: true
+ Native Overlay Diff: true
+Logging Driver: journald
+Cgroup Driver: systemd
+Plugins:
+ Volume: local
+ Network: bridge host macvlan null overlay
+ Authorization: rhel-push-plugin
+Swarm: inactive
+Runtimes: docker-runc runc
+Default Runtime: docker-runc
+Init Binary: /usr/libexec/docker/docker-init-current
+containerd version:  (expected: aa8187dbd3b7ad67d8e5e3a15115d3eef43a7ed1)
+runc version: 5eda6f6fd0c2884c2c8e78a6e7119e8d0ecedb77 (expected: 9df8b306d01f59d3a8029be411de015b7304dd8f)
+init version: fec3683b971d9c3ef73f284f176672c44b448662 (expected: 949e6facb77383876aeff8a6944dde66b3089574)
+Security Options:
+ seccomp
+  WARNING: You're not using the default seccomp profile
+  Profile: /etc/docker/seccomp.json
+ selinux
+Kernel Version: 3.10.0-862.el7.x86_64
+Operating System: Red Hat Enterprise Linux Server 7.5 (Maipo)
+OSType: linux
+Architecture: x86_64
+Number of Docker Hooks: 3
+CPUs: 1
+Total Memory: 990.1 MiB
+Name: ip-172-31-39-174.us-east-2.compute.internal
+ID: OVZ6:U4FG:IFIA:JFQ4:5B4Y:NKM7:UXSA:P3RQ:XFKM:NQQS:ET5H:KSAP
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): false
+Registry: https://registry.access.redhat.com/v1/
+Experimental: false
+Insecure Registries:
+ 127.0.0.0/8
+Live Restore Enabled: false
+Registries: registry.access.redhat.com (secure), docker.io (secure)
+[root@ip-172-31-39-174 ec2-user]#
+
+Next, execute an interactive bash shell on the container.
+============================================================
+
+[root@ip-172-31-39-174 ec2-user]# docker exec -it 99eb1417fb1e bash
+jenkins@99eb1417fb1e:/$
+jenkins@99eb1417fb1e:/$
+jenkins@99eb1417fb1e:/$
+jenkins@99eb1417fb1e:/$
+jenkins@99eb1417fb1e:/$ ls -lh
+total 0
+drwxr-xr-x.   1 root root  18 Jul 17 16:20 bin
+drwxr-xr-x.   2 root root   6 Jun 26 12:03 boot
+drwxr-xr-x.   5 root root 340 Nov  2 20:58 dev
+lrwxrwxrwx.   1 root root  33 Jul 17 06:16 docker-java-home -> /usr/lib/jvm/java-8-openjdk-amd64
+drwxr-xr-x.   1 root root  66 Nov  2 20:58 etc
+drwxr-xr-x.   2 root root   6 Jun 26 12:03 home
+drwxr-xr-x.   1 root root  30 Jul 16 00:00 lib
+drwxr-xr-x.   2 root root  34 Jul 16 00:00 lib64
+drwxr-xr-x.   2 root root   6 Jul 16 00:00 media
+drwxr-xr-x.   2 root root   6 Jul 16 00:00 mnt
+drwxr-xr-x.   2 root root   6 Jul 16 00:00 opt
+dr-xr-xr-x. 111 root root   0 Nov  2 20:58 proc
+drwx------.   2 root root  37 Jul 16 00:00 root
+drwxr-xr-x.   1 root root  21 Nov  2 20:58 run
+drwxr-xr-x.   1 root root  20 Jul 17 03:13 sbin
+drwxr-xr-x.   2 root root   6 Jul 16 00:00 srv
+dr-xr-xr-x.  13 root root   0 Nov  2 20:36 sys
+drwxrwxrwt.   1 root root 189 Nov  2 20:58 tmp
+drwxr-xr-x.   1 root root  19 Jul 16 00:00 usr
+drwxr-xr-x.   1 root root  37 Jul 17 16:20 var
+jenkins@99eb1417fb1e:/$
+
+
+
+#docker image pull alpine
+
+The pull command fetches the alpine image from the Docker registry and saves it in our system. In this case the registry is Docker Store. 
+
+You can use the docker image command to see a list of all images on your system.
+
+#docker image ls
+
+1.1 Docker Container Run
+
+Great! Let’s now run a Docker container based on this image. To do that you are going to use the docker container run command.
+
+#docker container run alpine ls -l
+
+#docker container run alpine echo "hello from alpine"
+
+ run the container in an interactive terminal. For this example, type the following:
+
+#docker container run -it alpine /bin/sh
+
+shows you all containers that are currently running:
+
+#docker container ls
+
+send a command in to the container to run by using the exec command, as follows:
+
+#docker container exec <container ID> ls
+
+To find out more about a Docker image, run 
+
+#docker image inspect alpine
+
+list of all the files that were added or changed to in the container
+
+#docker container diff <container ID>
+
+in order to commit the container and create an image out of it.
+
+#docker container commit CONTAINER_ID
+
+docker swarm init --advertise-addr $(hostname -i)
+
+docker swarm join --token SWMTKN-1-5t3skssb13cg9f14j8z32lsgm4v239ncsr4vsq3peib4ovmiia-ebsrptt1ezfrwvsv954twv0q2 192.168.0.33:2377
+
+
+$ docker node ls
+ID                            HOSTNAME         STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+f37aewf3gdjfe2k1pombdjef7 *   node1         Ready               Active        Leader              18.06.1-ce
+anyonvelfvm0x6jpbkaeir2cb     node2         Ready               Active                            18.06.1-ce
+[node1] (local) root@192.168.0.33 ~
+$
+Clone the Voting App
+
+Now to do something interesting we will retrieve the sample voting app code from Github.
+
+Ensure you are in the first terminal - the manager - and enter the following two commands:
+
+git clone https://github.com/docker/example-voting-app
+cd example-voting-app
+
+
+#docker stack deploy --compose-file=docker-stack.yml voting_stack
+
+
+#docker stack services voting_stack
+
+#################################################
+DEPLOY CLOUDERA ON Docker
+=============================
+
+<?xml version="1.0"?><?xml-stylesheet type="text/xsl" href="configuration.xsl"?><!-- Put site-specific property overrides in this file. --><configuration><property><name>mapreduce.framework.name</name><value>yarn</value></property><property><name>mapreduce.jobhistory.address</name><value>hadoop-master:10020</value></property><property><name>mapreduce.jobhistory.webapp.address</name><value>hadoop-master:19888</value></property></configuration>
+
+https://blog.newnius.com/how-to-quickly-setup-a-hadoop-cluster-in-docker.html
+
+
+docker run  --hostname=quickstart.cloudera  --privileged=true  -t  -i   -p 8888:8888  -p 7180:7180 -p 80:80  -p 50070:50070  -v $(pwd):/home/cloudera -w /home/cloudera cloudera/quickstart 
+/usr/bin/docker-quickstart
+
+
+
