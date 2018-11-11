@@ -47,6 +47,6 @@ CMD ln -s /usr/local/hadoop-2.7.4 /usr/local/hadoop
 
 WORKDIR $HADOOP_HOME
 
-ADD bootstrap.sh /etc/bootstrap.sh
+ADD bootstraph.sh /etc/bootstraph.sh
 
 CMD ["/etc/bootstrap.sh", "-d"]
